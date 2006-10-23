@@ -1,10 +1,9 @@
-Makefile.PL
-MANIFEST
-README
+CHANGES
 lib/Term/UI.pm
 lib/Term/UI/History.pm
+Makefile.PL
+MANIFEST			This list of files
+README
 t/00_load.t
 t/01_history.t
 t/02_ui.t
-t/inc/conf.pl
-META.yml                                 Module meta-data (added by MakeMaker)

@@ -1,0 +1,3 @@
+Changes for 0.14        Fri Oct 20 17:42:11 CEST 2006
+=====================================================
+* Clean up test files to work nicer with perl core
