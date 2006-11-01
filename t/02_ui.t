@@ -5,7 +5,7 @@ use lib qw[../lib lib];
 use Test::More tests => 13;
 use Term::ReadLine;
 
-use_ok( 'Term::UI' );
+use_ok( 'Term::UI' ) or diag "Check.pm not found.  Dying", die;
 
 ### make sure we can do this automatically ###
 $Term::UI::AUTOREPLY    = $Term::UI::AUTOREPLY  = 1;
@@ -14,14 +14,9 @@ $Term::UI::VERBOSE      = $Term::UI::VERBOSE    = 0;
 ### enable warnings
 $^W = 1;
 
-### perl core gets upset if we print stuff to STDOUT...
-if( $ENV{PERL_CORE} ) {
-    *STDOUT_SAVE = *STDOUT_SAVE = *STDOUT;
-    close *STDOUT;
-    open *STDOUT, ">termui.$$" or diag("Could not open tempfile");
-}
-END { close *STDOUT && unlink "termui.$$" if $ENV{PERL_CORE} }
 
+### perl core gets upset if we print stuff to STDOUT...
+close STDOUT if $ENV{PERL_CORE};
 
 ### so T::RL doesn't go nuts over no console
 BEGIN{ $ENV{LINES}=25; $ENV{COLUMNS}=80; }
@@ -103,7 +98,9 @@ my $tmpl = {
 
 }
 
-#### test parse_options   
+
+
+   
 {
     my $str =   q[command --no-foo --baz --bar=0 --quux=bleh ] .
                 q[--option="some'thing" -one-dash -single=blah' foo];
