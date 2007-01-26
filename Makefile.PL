@@ -12,6 +12,7 @@ WriteMakefile (
                         'Locale::Maketext::Simple'  => 0,
                         'Log::Message::Simple'      => 0,
                     },
+    INSTALLDIRS     => ( $] >= 5.009005 ? 'perl' : 'site' ),
     AUTHOR          => 'Jos Boumans <kane[at]cpan.org>',
 	ABSTRACT        => 'User interfaces via Term::ReadLine made easy'
 );    
