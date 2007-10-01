@@ -404,9 +404,9 @@ sub parse_options {
     my $return = {};
 
     ### there's probably a more elegant way to do this... ###
-    while ( $input =~ s/--?([-\w]+=("|').+?\2)(?:\Z|\s+)//  or
-            $input =~ s/--?([-\w]+=\S+)(?:\Z|\s+)//         or
-            $input =~ s/--?([-\w]+)(?:\Z|\s+)//
+    while ( $input =~ s/(?:\s+)--?([-\w]+=("|').+?\2)(?=\Z|\s+)//  or
+            $input =~ s/(?:\s+)--?([-\w]+=\S+)(?=\Z|\s+)//         or
+            $input =~ s/(?:\s+)--?([-\w]+)(?=\Z|\s+)//
     ) {
         my $match = $1;
 
