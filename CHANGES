@@ -1,3 +1,9 @@
+Changes for 0.16        Wed Oct  3 14:38:15 CEST 2007
+=====================================================
+* Option parsing went wrong with 'foo-bar' arguments, 
+  where it'd strip off -bar as an option. Fixed with 
+  look-aheads.
+
 Changes for 0.14        Fri Oct 20 17:42:11 CEST 2006
 =====================================================
 * Clean up test files to work nicer with perl core
