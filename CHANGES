@@ -1,3 +1,9 @@
+Changes for 0.20        Fri Apr 24 15:59:40 CEST 2009
+=====================================================
+* Address: #45264 Patch for Term::UI; when get_reply 
+  is called without a default, term::ui would emit a 
+  warning.
+
 Changes for 0.18        Sun Nov  4 18:30:41 CET 2007
 =====================================================
 * Option parsing wasn't tolerant for cases where the
