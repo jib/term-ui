@@ -1,3 +1,7 @@
+Changes for 0.24        Wed Jan 12 13:16:01 GMT 2011
+=====================================================
+* Skip some tests if we are not on a terminal
+
 Changes for 0.22        Fri Jan  7 21:55:38 GMT  2011
 =====================================================
 * Apply blead patch from Peter Acklam
