@@ -1,4 +1,4 @@
-This is the README file for Term::UI. 
+This is the README file for Term::UI.
 
 Please refer to 'perldoc Term::UI' after installation for details.
 
@@ -6,8 +6,8 @@ Please refer to 'perldoc Term::UI' after installation for details.
 
 * Description
 
-Term::UI provides methods to ask both elaborate questions as well 
-as simple yes/no questions via a Term::ReadLine interface using a 
+Term::UI provides methods to ask both elaborate questions as well
+as simple yes/no questions via a Term::ReadLine interface using a
 template. It can also parse options per unix style.
 
 #####################################################################
