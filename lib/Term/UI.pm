@@ -35,7 +35,7 @@ Term::UI - Term::ReadLine UI made easy
     my $reply = $term->get_reply(
                     prompt => 'What is your favourite colour?',
                     choices => [qw|blue red green|],
-                    default => blue,
+                    default => 'blue',
     );
 
     my $bool = $term->ask_yn(
