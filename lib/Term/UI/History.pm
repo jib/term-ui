@@ -74,7 +74,9 @@ BEGIN {
 }
 
 
-{   package Log::Message::Handlers;
+{
+    package # hide this from PAUSE
+      Log::Message::Handlers;
 
     sub history {
         my $self    = shift;
