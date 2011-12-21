@@ -1,4 +1,8 @@
-Chnages for 0.28        Wed Dec 21 22:26:05 GMT 2011
+Changes for 0.30        Wed Dec 21 23:30:39 GMT 2011
+=====================================================
+* Resolve PAUSE indexer problems
+
+Changes for 0.28        Wed Dec 21 22:26:05 GMT 2011
 =====================================================
 * Apply Debian patches [rt.cpan.org #73400]
 

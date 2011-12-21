@@ -11,7 +11,7 @@ use strict;
 BEGIN {
     use vars        qw[$VERSION $AUTOREPLY $VERBOSE $INVALID];
     $VERBOSE    =   1;
-    $VERSION    =   '0.28';
+    $VERSION    =   '0.30';
     $INVALID    =   loc('Invalid selection, please try again: ');
 }
 
