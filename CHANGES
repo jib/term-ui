@@ -1,3 +1,8 @@
+Changes for 0.32        Sat Nov 10 11:00:31 GMT 2012
+=====================================================
+* Add a delimiter to a prompt that doesn't have a default
+  (Tommy Stanton)
+
 Changes for 0.30        Wed Dec 21 23:30:39 GMT 2011
 =====================================================
 * Resolve PAUSE indexer problems
