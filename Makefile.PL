@@ -6,6 +6,7 @@ WriteMakefile (
     VERSION_FROM    => 'lib/Term/UI.pm', # finds $VERSION
     dist            => { COMPRESS => 'gzip -9f', SUFFIX => 'gz' },
     PREREQ_PM       => {
+                        'if'                        => 0,
                         'Test::More'                => 0,
                         'Params::Check'             => 0,
                         'Term::ReadLine'            => 0,

@@ -1,5 +1,7 @@
 package Term::UI;
 
+use if $] > 5.017, 'deprecate';
+
 use Carp;
 use Params::Check qw[check allow];
 use Term::ReadLine;
