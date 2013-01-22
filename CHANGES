@@ -1,3 +1,9 @@
+Changes for 0.34        Tue Jan 22 12:19:40 GMT 2013
+=====================================================
+* deprecate usage added if the library is found in
+  corelib location. Term::UI is leaving core with
+  v5.20.0
+
 Changes for 0.32        Sat Nov 10 11:00:31 GMT 2012
 =====================================================
 * Add a delimiter to a prompt that doesn't have a default
