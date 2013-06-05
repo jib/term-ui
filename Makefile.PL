@@ -4,8 +4,13 @@ use strict;
 WriteMakefile1(
     LICENSE => 'perl',
     META_MERGE => {
+        "meta-spec" => { version => 2 },
         resources => {
-            repository => 'https://github.com/jib/term-ui',
+            repository => {
+              type => 'git',
+              web => 'https://github.com/jib/term-ui',
+              url => 'git://github.com/jib/term-ui.git',
+            },
         },
     },
 
