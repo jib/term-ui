@@ -2,8 +2,9 @@
 
 use strict;
 use lib qw[../lib lib];
-use Test::More tests => 19;
+use Test::More tests => 21;
 use Term::ReadLine;
+use Test::Deep;
 
 use_ok( 'Term::UI' );
 
@@ -50,6 +51,24 @@ my $tmpl = {
     delete $args->{choices};
 
     is( $term->get_reply( %$args ), 'blue', q[Checking reply with defaults] );
+}
+
+{
+    my $args = \%{ $tmpl };
+    $args->{choices} = [qw|blue red green|],
+    $args->{multi} = 1;
+    $args->{default} = [qw|blue red|];
+
+    cmp_deeply( [ $term->get_reply( %$args ) ], [qw|blue red|], q[Checking reply with multible defaults and choices] );
+}
+
+{
+    my $args = \%{ $tmpl };
+    delete $args->{choices};
+    $args->{multi} = 1;
+    $args->{default} = [qw|blue red|];
+
+    cmp_deeply( [ $term->get_reply( %$args ) ], [qw|blue red|], q[Checking reply with multible defaults] );
 }
 
 {
