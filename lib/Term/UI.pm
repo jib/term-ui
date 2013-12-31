@@ -179,10 +179,10 @@ sub get_reply {
     ### to construct a 'foo? [DEFAULT]' type prompt
     } elsif ( defined $args->{default} ) {
         if ($args->{multi} and ref($args->{default}) eq "ARRAY") {
-            $prompt_add = join(" ", $args->{default});
+            $prompt_add = join(" ", @{$args->{default}});
         }
         else {
-                $prompt_add = $args->{default};
+            $prompt_add = $args->{default};
         }
     }
 
@@ -275,7 +275,7 @@ sub _tt_readline {
                             store => \$choices },
         multi       => { default => 0,      allow => [0, 1], store => \$multi },
         allow       => { default => qr/.*/, store => \$allow, },
-        prompt_add  => { default => '',     store => \$prompt_add },
+        prompt_add  => { default => '',     store => \$prompt_add, strict_type => 1 },
         print_me    => { default => '',     store => \$print_me },
     };
 
@@ -365,7 +365,7 @@ sub _tt_readline {
                     ### the choices, because humans want to start counting
                     ### at 1, not at 0
                     push @rv, $choices->[ $answer - 1 ]
-                        if $answer > 0 && defined $choices->[ $answer - 1];
+                        if $answer > 0 && defined $choices->[ $answer - 1 ];
                 }
             }
 
