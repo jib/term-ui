@@ -19,7 +19,7 @@ WriteMakefile1(
     dist            => { COMPRESS => 'gzip -9f', SUFFIX => 'gz' },
     PREREQ_PM       => {
                         'if'                        => 0,
-                        'Test::More'                => 0,
+                        'Test::More'                => 0.31,
                         'Params::Check'             => 0,
                         'Term::ReadLine'            => 0,
                         'Locale::Maketext::Simple'  => 0,
