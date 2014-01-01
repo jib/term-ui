@@ -128,6 +128,7 @@ sub get_reply {
         multi       => { default => 0,      allow => [0, 1] },
         allow       => { default => qr/.*/ },
         print_me    => { default => '',     strict_type => 1 },
+        newline     => { default => 0,      strict_type => 1 },
     };
 
     my $args = check( $tmpl, \%hash, $VERBOSE )
@@ -166,7 +167,7 @@ sub get_reply {
             $args->{print_me} .= sprintf "\n%3s> %-s", $i, $choice;
         }
 
-        $prompt_add = join(" ", @$prompt_add) if ($args->{multi});
+	$prompt_add = join(" ", @$prompt_add) if ($args->{multi});
 
         ### we listed some choices -- add another newline for
         ### pretty printing
@@ -179,7 +180,10 @@ sub get_reply {
     ### to construct a 'foo? [DEFAULT]' type prompt
     } elsif ( defined $args->{default} ) {
         if ($args->{multi} and ref($args->{default}) eq "ARRAY") {
-            $prompt_add = join(" ", @{$args->{default}});
+	    if ($args->{multi}) {
+	        my $seperator = $args->{newline} ? "\n>> " : " ";
+	        $prompt_add = join($seperator, @{$args->{default}});
+	    }
         }
         else {
             $prompt_add = $args->{default};
@@ -265,7 +269,7 @@ sub _tt_readline {
     local $| = 1;                       # print ASAP
 
 
-    my ($default, $prompt, $choices, $multi, $allow, $prompt_add, $print_me);
+    my ($default, $prompt, $choices, $multi, $allow, $prompt_add, $print_me, $newline);
     my $tmpl = {
         default     => { default => undef,  strict_type => 0,
                             store => \$default },
@@ -277,6 +281,7 @@ sub _tt_readline {
         allow       => { default => qr/.*/, store => \$allow, },
         prompt_add  => { default => '',     store => \$prompt_add, strict_type => 1 },
         print_me    => { default => '',     store => \$print_me },
+        newline     => { default => 0,      store => \$newline },
     };
 
     check( $tmpl, \%hash, $VERBOSE ) or return;
@@ -289,7 +294,12 @@ sub _tt_readline {
     if ($prompt_add) {
         ### we might have to add a default value to the prompt, to
         ### show the user what will be picked by default:
-        $prompt .= " [$prompt_add]: " ;
+	if ($newline) {
+		$prompt .= ":\n>> $prompt_add";
+	}
+	else {
+		$prompt .= " [$prompt_add]: ";
+	}
     }
     else {
         $prompt .= " : ";
@@ -320,33 +330,50 @@ sub _tt_readline {
     }
 
     if ($multi and defined($default)) {
-        $default = join(' ', @$default);
+        my $split_char = $newline ? "\n" : ' ';
+        $default = join($split_char, @$default);
     }
 
     ### so, no AUTOREPLY, let's see what the user will answer
     LOOP: {
 
-        ### annoying bug in T::R::Perl that mucks up lines with a \n
-        ### in them; So split by \n, save the last line as the prompt
-        ### and just print the rest
-        {   my @lines   = split "\n", $prompt;
-            $prompt     = pop @lines;
-
-            history( "$_\n" ) for @lines;
-        }
-
         ### pose the question
-        my $answer  = $term->readline($prompt);
-        $answer     = $default unless length $answer;
+        my $answer;
+	if ($newline) {
+		# Newline for nicer output
+		print "$prompt\nEnd input with EOF (cntl+D)\n";
+		my $input_done = 0;
+		do {
+		    my $line = $term->readline("> ");
+		    $input_done = (( ! defined($line)) or (length($line) == 0));
+		    $answer .= "$line\n" if defined($line);
+		} until $input_done;
+		chomp($answer);
+		print "\n";
+	}
+	else {
+            ### annoying bug in T::R::Perl that mucks up lines with a \n
+            ### in them; So split by \n, save the last line as the prompt
+            ### and just print the rest
+            {   my @lines   = split "\n", $prompt;
+                $prompt     = pop @lines;
 
-        $term->addhistory( $answer ) if length $answer;
+                history( "$_\n" ) for @lines;
+            }
+
+	   $answer = $term->readline($prompt);
+	}
+
+	$answer = $default unless length $answer;
+	$term->addhistory( $answer ) if length $answer;
 
         ### add both prompt and answer to the history
         history( "$prompt $answer", 0 );
 
         ### if we're allowed to give multiple answers, split
         ### the answer on whitespace
-        my @answers = $multi ? split(/\s+/, $answer) : $answer;
+        my $split_char = $newline ? "\n" : '\s+';
+        my @answers = $multi ? split(m/$split_char/, $answer) : $answer;
 
         ### the return value list
         my @rv;
@@ -357,7 +384,7 @@ sub _tt_readline {
 
                 ### a digit implies a multiple choice question,
                 ### a non-digit is an open answer
-                if( $answer =~ /\D/ ) {
+                if( $answer =~ /\D/ or $answer > scalar(@$choices) ) {
                     push @rv, $answer if allow( $answer, $allow );
                 } else {
 
