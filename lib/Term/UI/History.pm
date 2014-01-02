@@ -5,7 +5,7 @@ use vars qw[$VERSION];
 use base 'Exporter';
 use base 'Log::Message::Simple';
 
-$VERSION = '0.40';
+$VERSION = '0.42';
 
 =pod
 
