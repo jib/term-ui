@@ -14,7 +14,7 @@ $Term::UI::VERBOSE      = $Term::UI::VERBOSE    = 0;
 # SKIP tests if we aren't on a terminal
 SKIP: {
 
-skip 'not on a terminal', 18 unless -t;
+skip 'not on a terminal', 20 unless -t;
 
 ### enable warnings
 $^W = 1;
