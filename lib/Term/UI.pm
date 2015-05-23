@@ -134,7 +134,7 @@ sub get_reply {
                 or ( carp( loc(q[Could not parse arguments]) ), return );
 
     # Check for legacy default on multi=1
-    if ($args->{multi} and ref($args->{default}) ne "ARRAY") {
+    if ($args->{multi} and defined $args->{default} and ref($args->{default}) ne "ARRAY") {
         $args->{default} = [ $args->{default} ];
     }
 
@@ -166,7 +166,7 @@ sub get_reply {
             $args->{print_me} .= sprintf "\n%3s> %-s", $i, $choice;
         }
 
-        $prompt_add = join(" ", @$prompt_add) if ($args->{multi});
+        $prompt_add = join(" ", @$prompt_add) if ( $prompt_add && $args->{multi} );
 
         ### we listed some choices -- add another newline for
         ### pretty printing
