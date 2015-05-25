@@ -1,3 +1,7 @@
+0.46 Mon May 25 18:47:04 BST 2015
+* Fix test skip count for non-terminals
+  (Alexandr Ciornii)
+
 0.44 Mon May 25 12:09:17 BST 2015
 * Fix multi-choice without defaults (Noel Maddy)
 
