@@ -2,7 +2,7 @@
 
 use strict;
 use lib qw[../lib lib];
-use Test::More tests => 21;
+use Test::More tests => 22;
 use Term::ReadLine;
 
 use_ok( 'Term::UI' );
@@ -50,6 +50,15 @@ my $tmpl = {
     delete $args->{choices};
 
     is( $term->get_reply( %$args ), 'blue', q[Checking reply with defaults] );
+}
+
+{
+    my $args = \%{ $tmpl };
+    $args->{choices} = [qw|blue red green|],
+    $args->{multi} = 1;
+    delete $args->{default};
+
+    is_deeply( [ $term->get_reply( %$args ) ], [undef], q[Checking reply with multiple choices but no defaults] );
 }
 
 {
