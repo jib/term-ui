@@ -85,7 +85,7 @@ C<Term::UI::History> manpage or the C<SYNOPSIS> for details.
 
 =head1 METHODS
 
-=head2 $reply = $term->get_reply( prompt => 'question?', [choices => \@list, default => $list[0], multi => BOOL, print_me => "extra text to print & record", allow => $ref] );
+=head2 $reply = $term->get_reply( prompt => 'question?', [choices => \@list, default => $list[0], preput => "text to put as default user input", multi => BOOL, print_me => "extra text to print & record", allow => $ref] );
 
 C<get_reply> asks a user a question, and then returns the reply to the
 caller. If the answer is invalid (more on that below), the question will
@@ -98,6 +98,13 @@ presented, the question will be reposed.
 If you provide a C<default>  answer, this will be returned when either
 C<$AUTOREPLY> is set to true, (see the C<GLOBAL VARIABLES> section further
 below), or when the user just hits C<enter>.
+
+The C<preput> argument allows to specify a text that will be inserted to
+the prompt line as the initial input which may be edited, deleted or
+accepted by the user. If you supply the empty string as the C<preput>
+argument then the C<default> value will be preputted. It will only work if
+the underlying readline module provide support for it (now it is supported
+only by the C<Term::Readline::Gnu>).
 
 You can indicate that the user is allowed to enter multiple answers by
 toggling the C<multi> flag. Note that a list of answers will then be
@@ -123,6 +130,7 @@ sub get_reply {
 
     my $tmpl = {
         default     => { default => undef,  strict_type => 0 },
+        preput      => { default => '',     strict_type => 0 },
         prompt      => { default => '',     strict_type => 1, required => 1 },
         choices     => { default => [],     strict_type => 1 },
         multi       => { default => 0,      allow => [0, 1] },
@@ -265,11 +273,11 @@ sub _tt_readline {
     local $Params::Check::VERBOSE = 0;  # why is this?
     local $| = 1;                       # print ASAP
 
-
-    my ($default, $prompt, $choices, $multi, $allow, $prompt_add, $print_me);
+    my ($default, $preput, $prompt, $choices, $multi, $allow, $prompt_add, $print_me);
     my $tmpl = {
         default     => { default => undef,  strict_type => 0,
                             store => \$default },
+        preput      => { default => undef,  strict_type => 0, store => \$preput},
         prompt      => { default => '',     strict_type => 1, required => 1,
                             store => \$prompt },
         choices     => { default => [],     strict_type => 1,
@@ -286,6 +294,18 @@ sub _tt_readline {
     ### it can display wonky on some terminals.
     history( $print_me ) if $print_me;
 
+    my $preput_is_supported =
+      $term->ReadLine eq "Term::ReadLine::Gnu" ? 1 : undef;
+
+    $preput = undef unless $preput_is_supported;
+
+    ### If we are using Term::ReadLine:Gnu we can preput default value
+    if (defined $preput and $preput eq '') {
+        # if preput is the empty string we preput default
+        $preput = $prompt_add;
+        # We don't need to double information in the prompt in that case
+        $prompt_add = undef;
+    }
 
     if ($prompt_add) {
         ### we might have to add a default value to the prompt, to
@@ -337,7 +357,10 @@ sub _tt_readline {
         }
 
         ### pose the question
-        my $answer  = $term->readline($prompt);
+        my $answer = defined $preput
+          ? $term->readline($prompt, $preput)
+          : $term->readline($prompt);
+
         $answer     = $default unless length $answer;
 
         $term->addhistory( $answer ) if length $answer;
