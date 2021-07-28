@@ -146,6 +146,7 @@ sub get_reply {
     ### we'll print them separately before the prompt
     if( @{$args->{choices}} ) {
         my $i;
+        my $choices_width = length( sprintf( "%d", scalar @{ $args->{ 'choices' } } ) );
 
         for my $choice ( @{$args->{choices}} ) {
             $i++;   # the answer counter -- but humans start counting
@@ -163,7 +164,7 @@ sub get_reply {
             }
 
             ### create a "DIGIT> choice" type line
-            $args->{print_me} .= sprintf "\n%3s> %-s", $i, $choice;
+            $args->{print_me} .= sprintf "\n%*s> %-s", $choices_width, $i, $choice;
         }
 
         $prompt_add = join(" ", @$prompt_add) if ( $prompt_add && $args->{multi} );
