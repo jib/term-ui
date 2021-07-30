@@ -155,7 +155,7 @@ sub get_reply {
             ### so we can construct a "foo? [DIGIT]" type prompt
             if (defined $args->{default}) {
                 if ($args->{multi}) {
-                    push @$prompt_add, $i if (scalar(grep { m/^$choice$/ } @{$args->{default}}));
+                    push @$prompt_add, $i if grep { $_ eq $choice } @{ $args->{ 'default' } };
                 }
                 else {
                     $prompt_add = $i if ($choice eq $args->{default});
