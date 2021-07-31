@@ -153,6 +153,21 @@ sub get_reply {
     ### if you supplied several choices to pick from,
     ### we'll print them separately before the prompt
     if( @{$args->{choices}} ) {
+        # clean up 'default' of items not in 'choices'
+        if ( $args->{ 'default' } ) {
+            if ( $args->{ 'multi' } ) {
+                @{ $args->{ 'default' } } =
+                    grep {
+                        my $default = $_;
+                        grep $default eq $_, @{ $args->{ 'choices' } };
+                    }
+                    @{ $args->{ 'default' } };
+            } else {
+                delete $args->{ 'default' }
+                    unless grep $_ eq $args->{ 'default' }, @{ $args->{ 'choices' } }
+            }
+        }
+
         my $i;
         my $choices_width = length( sprintf( "%d", scalar @{ $args->{ 'choices' } } ) );
 
