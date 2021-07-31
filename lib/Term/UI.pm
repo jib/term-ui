@@ -370,7 +370,7 @@ sub _tt_readline {
 
         ### if we're allowed to give multiple answers, split
         ### the answer on whitespace
-        my @answers = $multi ? split(/\s+/, $answer) : $answer;
+        my @answers = $multi ? split(/\s+/, $answer) : ( $answer );
 
         ### the return value list
         my @rv;
@@ -381,7 +381,11 @@ sub _tt_readline {
 
                 ### a digit implies a multiple choice question,
                 ### a non-digit is an open answer
-                if( $answer =~ /\D/ ) {
+                if ( $answer =~ /\D/
+                     || ( $answer =~ /^\d+$/
+                          && @$choices <= $answer
+                        )
+                   ) {
                     push @rv, $answer if allow( $answer, $allow );
                 } else {
 
