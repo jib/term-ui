@@ -1,6 +1,10 @@
 package Term::UI;
+$Term::UI::VERSION = '0.46';
 
 use if $] > 5.017, 'deprecate';
+
+use strict;
+use warnings;
 
 use Carp;
 use Params::Check qw[check allow];
@@ -8,14 +12,9 @@ use Term::ReadLine;
 use Locale::Maketext::Simple Style => 'gettext';
 use Term::UI::History;
 
-use strict;
-
-BEGIN {
-    use vars        qw[$VERSION $AUTOREPLY $VERBOSE $INVALID];
-    $VERBOSE    =   1;
-    $VERSION    =   '0.46';
-    $INVALID    =   loc('Invalid selection, please try again: ');
-}
+our $AUTOREPLY;
+our $INVALID = loc( 'Invalid selection, please try again: ' );
+our $VERBOSE = 1;
 
 push @Term::ReadLine::Stub::ISA, __PACKAGE__
         unless grep { $_ eq __PACKAGE__ } @Term::ReadLine::Stub::ISA;
@@ -381,11 +380,11 @@ sub _tt_readline {
         $term->addhistory( $answer ) if length $answer;
 
         ### add both prompt and answer to the history
-        history( "$prompt $answer", 0 );
+        history( defined $answer ? "$prompt $answer" : "$prompt", 0 );
 
         ### if we're allowed to give multiple answers, split
         ### the answer on whitespace
-        my @answers = $multi ? split(/\s+/, $answer) : ( $answer );
+        my @answers = grep defined, $multi ? split(/\s+/, $answer) : ( $answer );
 
         ### the return value list
         my @rv;
