@@ -1,9 +1,13 @@
+#!/usr/bin/env perl
+
 ### Term::UI test suite ###
 
 use strict;
+use warnings;
+
 use lib qw[../lib lib];
-use Test::More tests => 23;
-use Term::ReadLine;
+use Test::More 'tests' => 23;
+use Term::ReadLine ();
 
 use_ok( 'Term::UI' );
 
