@@ -1,5 +1,5 @@
 package Term::UI;
-$Term::UI::VERSION = '0.46';
+$Term::UI::VERSION = '0.48';
 
 use if $] > 5.017, 'deprecate';
 

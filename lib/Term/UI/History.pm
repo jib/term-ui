@@ -1,5 +1,5 @@
 package Term::UI::History;
-$Term::UI::History::VERSION = '0.46';
+$Term::UI::History::VERSION = '0.48';
 
 use strict;
 use warnings;
