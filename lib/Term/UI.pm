@@ -1,9 +1,10 @@
 package Term::UI;
-$Term::UI::VERSION = '0.50';
+
 
 use if $] > 5.017, 'deprecate';
 
 use strict;
+use utf8;
 use warnings;
 
 use Carp;
@@ -19,6 +20,8 @@ our $VERBOSE = 1;
 push @Term::ReadLine::Stub::ISA, __PACKAGE__
         unless grep { $_ eq __PACKAGE__ } @Term::ReadLine::Stub::ISA;
 
+
+=encoding utf8
 
 =pod
 

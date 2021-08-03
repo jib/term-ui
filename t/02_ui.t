@@ -3,10 +3,10 @@
 ### Term::UI test suite ###
 
 use strict;
+use utf8;
 use warnings;
 
-use lib qw[../lib lib];
-use Test::More 'tests' => 23;
+use Test::More;
 use Term::ReadLine ();
 
 use_ok( 'Term::UI' );
@@ -194,3 +194,5 @@ my $tmpl = {
 }
 
 } # End SKIP block
+
+done_testing();
