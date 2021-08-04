@@ -397,7 +397,7 @@ sub _tt_readline {
                 ### a non-digit is an open answer
                 if ( $answer =~ /\D/
                      || ( $answer =~ /^\d+$/
-                          && @$choices <= $answer
+                          && @$choices < $answer
                         )
                    ) {
                     push @rv, $answer if allow( $answer, $allow );
