@@ -1,13 +1,8 @@
 #!/usr/bin/env perl
 
 use strict;
+use utf8;
 use warnings;
-
-BEGIN {
-    chdir 't' if -d 't';
-    use File::Spec;
-    use lib File::Spec->catdir( qw[.. lib] );
-}
 
 use Test::More 'no_plan';
 

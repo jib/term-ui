@@ -1,7 +1,8 @@
 package Term::UI::History;
-$Term::UI::History::VERSION = '0.50';
+
 
 use strict;
+use utf8;
 use warnings;
 
 use parent
@@ -15,6 +16,8 @@ our $HISTORY_FH = \ *STDOUT;
 our @EXPORT = qw[ history ];
 
 my $log = Log::Message->new();
+
+=encoding utf8
 
 =pod
 
@@ -67,6 +70,12 @@ sub history {
              'extra' => [ @_ ],
            );
 }
+
+=head2 history_as_string()
+
+Retrieve the entire session as a printable string.
+
+=cut
 
 sub history_as_string {
     my $class = shift;
