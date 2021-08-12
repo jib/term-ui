@@ -20,10 +20,12 @@ WriteMakefile1(
     PREREQ_PM       => {
                         'if'                        => 0,
                         'parent'                    => 0,
+                        'Exporter'                  => 0,
                         'Test::More'                => 0.31,
                         'Params::Check'             => 0,
                         'Term::ReadLine'            => 0,
                         'Locale::Maketext::Simple'  => 0,
+                        'Log::Message'              => 0,
                         'Log::Message::Simple'      => 0,
                     },
     INSTALLDIRS     => ( $] >= 5.009005 && $] < 5.012 ? 'perl' : 'site' ),
